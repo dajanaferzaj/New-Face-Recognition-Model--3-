@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Emotion Recognition</title>
+    <style>
+        body {
+            font-family: 'Verdana', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f4f8; /* Light background color */
+            text-align: center;
+            position: relative;
+        }
+
+        /* Background image with blur effect */
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('Universiteti_Polis.svg_.png'); /* Vendosni rrugën e imazhit tuaj */
+            background-size: contain;  /* Sigurohuni që imazhi nuk zmadhohet */
+            background-position: center; /* Poziciono imazhin në qendër */
+            background-repeat: no-repeat; /* Sigurohuni që imazhi të mos përsëritet */
+            filter: blur(10px); /* Efekti i mjegullimit */
+            z-index: -1; /* Vendos imazhin prapa përmbajtjes */
+        }
+
+        .container {
+            padding: 20px 40px;
+            background-color: rgba(255, 255, 255, 0.7); /* Pjesa me ngjyrë të lehtë për të lehtësuar lexueshmërinë */
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 750px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px; /* Hapsirë midis elementeve */
+        }
+
+        h1 {
+            color: #3a5a40;
+            font-size: 2.8em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.4em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 20px; /* Hapsirë midis dy butonave */
+        }
+
+        button {
+            padding: 14px 30px;
+            font-size: 1.2em;
+            background-color: #3a5a40;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #2e4532;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Emotion Recognition!</h1>
+        <p>View emotion recognition through facial expressions.</p>
+
+        <div class="buttons-container">
+            <button onclick="startRecognition()">Start Recognition</button>
+            <!-- Ky buton drejton në faqen tjetër (index.html) -->
+            <button onclick="window.location.href='index.html'">View Statistics</button>
+        </div>
+    </div>
+
+    
+    <script>
+        const socket = io();
+    
+        socket.on('video_frame', function(data) {
+            const img = document.getElementById('videoElement');
+            img.src = 'data:image/jpeg;base64,' + btoa(String.fromCharCode.apply(null, new Uint8Array(data)));
+        });
+    </script>
+</body>
+</html>
